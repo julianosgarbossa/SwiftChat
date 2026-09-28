@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3AC7DCFD306AA49000CBB25B /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 3AC7DCFC306AA49000CBB25B /* FirebaseAuth */; };
+		3AC7DD0F306AAB6600CBB25B /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 3AC7DD0E306AAB6600CBB25B /* FirebaseFirestore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3AC7DCFD306AA49000CBB25B /* FirebaseAuth in Frameworks */,
+				3AC7DD0F306AAB6600CBB25B /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -51,6 +53,7 @@
 			isa = PBXGroup;
 			children = (
 				3AC7DCCB306A9EB500CBB25B /* SwiftChat */,
+				3AC7DD0D306AAB6600CBB25B /* Frameworks */,
 				3AC7DCCA306A9EB500CBB25B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -61,6 +64,13 @@
 				3AC7DCC9306A9EB500CBB25B /* SwiftChat.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		3AC7DD0D306AAB6600CBB25B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -84,6 +94,7 @@
 			name = SwiftChat;
 			packageProductDependencies = (
 				3AC7DCFC306AA49000CBB25B /* FirebaseAuth */,
+				3AC7DD0E306AAB6600CBB25B /* FirebaseFirestore */,
 			);
 			productName = SwiftChat;
 			productReference = 3AC7DCC9306A9EB500CBB25B /* SwiftChat.app */;
@@ -379,6 +390,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3AC7DCFB306AA49000CBB25B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
+		};
+		3AC7DD0E306AAB6600CBB25B /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3AC7DCFB306AA49000CBB25B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
