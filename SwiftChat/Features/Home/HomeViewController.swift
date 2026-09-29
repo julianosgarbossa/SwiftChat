@@ -38,10 +38,13 @@ class HomeViewController: UIViewController {
 extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if viewModel.isScreenContact {
-            if indexPath.row == viewModel.getContactListCount {
+            if indexPath.item == viewModel.getContactListCount {
                 addContact { [weak self] email in
                     self?.viewModel.addContact(email: email)
                 }
+            } else {
+                let chatViewController = ChatViewController(contact: viewModel.loadCurrentContact(index: indexPath.item))
+                navigationController?.pushViewController(chatViewController, animated: true)
             }
         }
     }
@@ -58,7 +61,7 @@ extension HomeViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if viewModel.isScreenContact {
-            if indexPath.row == viewModel.getContactListCount {
+            if indexPath.item == viewModel.getContactListCount {
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AddContactCollectionViewCell.identifier, for: indexPath) as? AddContactCollectionViewCell else { return UICollectionViewCell() }
                 return cell
             } else {
