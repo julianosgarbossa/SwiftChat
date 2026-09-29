@@ -24,6 +24,16 @@ class HomeViewController: UIViewController {
         viewModel.getCurrentUserInfo()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.addListenerRecoveryConversation()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        viewModel.removeConsersationListener()
+    }
+    
     private func configNagigation() {
         navigationController?.navigationBar.isHidden = true
     }
@@ -46,6 +56,10 @@ extension HomeViewController: UICollectionViewDelegate {
                 let chatViewController = ChatViewController(contact: viewModel.loadCurrentContact(index: indexPath.item))
                 navigationController?.pushViewController(chatViewController, animated: true)
             }
+        } else {
+            guard let contact = viewModel.loadCurrentContactForConversation(index: indexPath.row) else { return }
+            let chatViewController = ChatViewController(contact: contact)
+            navigationController?.pushViewController(chatViewController, animated: true)
         }
     }
 }
@@ -70,7 +84,9 @@ extension HomeViewController: UICollectionViewDataSource {
                 return cell
             }
         } else {
-            return UICollectionViewCell()
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ContactOrMessageCollectionViewCell.identifier, for: indexPath) as? ContactOrMessageCollectionViewCell else { return UICollectionViewCell() }
+            cell.setupCellConversation(conversation: viewModel.loadCurrentConversation(index: indexPath.item))
+            return cell
         }
     }
 }
@@ -102,6 +118,10 @@ extension HomeViewController: HomeViewModelDelegate {
     }
     
     func successGetAllContact() {
+        screen?.reloadCollectionView()
+    }
+    
+    func successGetAllConversations() {
         screen?.reloadCollectionView()
     }
     

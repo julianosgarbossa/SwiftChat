@@ -47,11 +47,18 @@ class ContactOrMessageCollectionViewCell: UICollectionViewCell {
         
     }
     
+    private func setUserNameAndLastMessage(name: String, lastMessage: String) {
+        let attributedText = NSMutableAttributedString(string: name, attributes: [NSAttributedString.Key.font : UIFont(name: CustomFont.poppinsMedium, size: 16) ?? UIFont(), NSAttributedString.Key.foregroundColor: UIColor.darkGray])
+        
+        attributedText.append(NSAttributedString(string: "\n\(lastMessage)", attributes: [NSAttributedString.Key.font: UIFont(name: CustomFont.poppinsMedium, size: 14) ?? UIFont(), NSAttributedString.Key.foregroundColor: UIColor.lightGray]))
+        screen.userNameLabel.attributedText = attributedText
+    }
+    
     func setupCellContact(contact: Contact) {
         setOnlyUserName(userName: contact.name ?? "")
     }
     
     func setupCellConversation(conversation: Conversation) {
-        
+        setUserNameAndLastMessage(name: conversation.name ?? "", lastMessage: conversation.lastMessage ?? "")
     }
 }

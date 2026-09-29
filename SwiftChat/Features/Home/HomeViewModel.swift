@@ -13,6 +13,7 @@ protocol HomeViewModelDelegate: AnyObject {
     func alertStateError(title: String, message: String)
     func successSaveContact(title: String, message: String)
     func successGetAllContact()
+    func successGetAllConversations()
 }
 
 final class HomeViewModel {
@@ -28,6 +29,7 @@ final class HomeViewModel {
     private var emailUserLogged: String?
     private(set) var isScreenContact: Bool = false
     private var contactList: [Contact] = []
+    private var consersationListener: ListenerRegistration?
     private var conversationList: [Conversation] = []
 
     var numberOfItemsInSectionConversation: Int {
@@ -54,6 +56,17 @@ final class HomeViewModel {
     
     func loadCurrentContact(index: Int) -> Contact {
         return contactList[index]
+    }
+    
+    func loadCurrentConversation(index: Int) -> Conversation {
+        return conversationList[index]
+    }
+    
+    func loadCurrentContactForConversation(index: Int) -> Contact? {
+        guard conversationList.indices.contains(index),
+              let id = conversationList[index].idReceiver,
+              !id.isEmpty else { return nil }
+        return Contact(id: id, name: conversationList[index].name)
     }
     
     func getAllContact() {
@@ -109,5 +122,26 @@ final class HomeViewModel {
                 self?.delegate?.successSaveContact(title: "Contato salvo", message: "Contato adicionado com sucesso!")
             }
         }
+    }
+    
+    func addListenerRecoveryConversation() {
+        if let idUserLogged = auth.currentUser?.uid {
+            consersationListener = firestore.collection("conversations").document(idUserLogged).collection("lastCoversations").addSnapshotListener({ querySnapshot, error in
+                if error == nil {
+                    self.conversationList.removeAll()
+                    if let querySnapshot {
+                        for document in querySnapshot.documents {
+                            let dataConversation = document.data()
+                            self.conversationList.append(Conversation(dictionary: dataConversation))
+                        }
+                        self.delegate?.successGetAllConversations()
+                    }
+                }
+            })
+        }
+    }
+    
+    func removeConsersationListener() {
+        consersationListener?.remove()
     }
 }
